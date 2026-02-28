@@ -1,73 +1,65 @@
-# React + TypeScript + Vite
+# Kanban Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação simples de quadro Kanban em React + Vite, usando `json-server` como backend de desenvolvimento.
 
-Currently, two official plugins are available:
+## Funcionalidades atuais
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Cadastro/Autenticação de usuário (usuário+senha ou simulado via Google)
+- CRUD de tarefas (status, prioridade, descrição)
+- Confirmação de exclusão com diálogo estilizado
 
-## React Compiler
+## Estrutura
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `src/entities` — tipos (Task, User)
+- `src/services/api.ts` — chamadas HTTP para tarefas e autenticação
+- `src/contexts` — `TasksContext` e `AuthContext` para estado global
+- `src/components` — formulários, cards e layout
 
-## Expanding the ESLint configuration
+## Como rodar
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Instale dependências**
+   ```bash
+   npm install
+   ```
+2. **Inicie o servidor fake**
+   ```bash
+   npm run json-server
+   ```
+   Ele serve `db.json` em `http://localhost:3000`
+3. **Inicie o front-end**
+   ```bash
+   npm run dev
+   # ou, se preferir usar Bun:
+   # bun install            # instala dependências (cria bun.lockb)
+   # bun run dev           # inicia o Vite
+   ```
+4. Abra `http://localhost:5173` no navegador.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+> Se quiser levantar o servidor JSON junto com o dev server: `npm run dev:all` ou `bun run dev:all`.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+> O login é obrigatório; a primeira tela exibe um formulário com entradas para usuário, email e senha.
+> O botão "Entrar com Google" retorna um usuário mock automaticamente.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## API de autenticação
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+O backend fake expõe os seguintes endpoints via `json-server`:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `GET /users?username=...&password=...` — valida login
+- `POST /users` — registra novo usuário (campos: `username`, `email`, `password`)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Os dados de usuários ficam em `db.json` dentro da chave `users`.
+
+## Observações
+
+- Não há persistência de sessão (refresh da página limpa o usuário);
+- Recuperação de senha é apenas placeholder;
+- Para melhorar, pode-se integrar um verdadeiro OAuth ou JWT.
+
+## Estrutura de desenvolvimento
+
+- Componentes usam `@radix-ui/themes`; inputs são `TextField.Root`
+- Hook `useConfirm` exibe diálogos de confirmação reutilizáveis.
+
+---
+
+Qualquer dúvida, abra uma issue ou me pergunte diretamente! 😄

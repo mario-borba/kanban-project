@@ -1,6 +1,7 @@
 import { Badge, Button, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import type { Task, TaskPriority, TaskStatus } from "../entities/Task";
 import { useTasks } from "../hooks/useTasks";
+import { useConfirm } from "../hooks/useConfirm";
 
 interface TaskCardProps {
   task: Task;
@@ -8,6 +9,7 @@ interface TaskCardProps {
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const { deleteTask, updateTask } = useTasks();
+  const { openConfirm, ConfirmDialog } = useConfirm();
   const getActionText = (status: TaskStatus) => {
     const actionsTexts = {
       todo: "Iniciar",
@@ -36,10 +38,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   };
 
   const handleDelete = (id: string) => {
-    const confirmation = confirm("Deseja excluir a tarefa?");
-    if (confirmation) {
-      deleteTask(id);
-    }
+    openConfirm({
+      title: "Excluir tarefa",
+      description:
+        "Tem certeza que deseja excluir esta tarefa? Esta ação é irreversível.",
+      onConfirm: () => deleteTask(id),
+    });
   };
 
   const handleUpdate = () => {
@@ -73,6 +77,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
           </Button>
         </Flex>
       </Card>
+      <ConfirmDialog />
     </>
   );
 };

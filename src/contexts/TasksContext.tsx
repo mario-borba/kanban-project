@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { Task } from "../entities/Task";
-import { taskService } from "../services/api";
+import { taskService } from "../services/tasks";
+import { useAuth } from "../features/auth/useAuth";
 
 export interface TaskContextData {
   tasks: Task[];
@@ -21,16 +22,23 @@ interface TaskContextProviderProps {
 export const TaskContextProvider: React.FC<TaskContextProviderProps> = ({
   children,
 }) => {
+  const { user } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    taskService.fetchTasks().then((data: any) => {
-      setTasks(data);
-    });
-  }, []);
+    if (user?.id) {
+      taskService.fetchTasksByUserId(user.id).then((data) => {
+        setTasks(data);
+      });
+    }
+  }, [user?.id]);
 
   const createTask = async (attributes: Omit<Task, "id">) => {
-    const newTask = await taskService.createTask(attributes);
+    if (!user?.id) return;
+    const newTask = await taskService.createTask({
+      ...attributes,
+      userId: user.id,
+    });
     setTasks((currentState) => [...currentState, newTask]);
   };
 

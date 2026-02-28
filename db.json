@@ -1,32 +1,51 @@
 {
+  "users": [
+    {
+      "id": "1",
+      "username": "jordana",
+      "email": "jordana@example.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=jordana",
+      "password": "123456"
+    },
+    {
+      "id": "de7a",
+      "username": "jordana",
+      "email": "",
+      "password": "123456"
+    }
+  ],
   "tasks": [
     {
-      "id": "65ac",
+      "id": "1",
       "title": "Levar nina na rua",
       "description": "levar princesa passear",
       "status": "done",
-      "priority": "high"
+      "priority": "high",
+      "userId": "1"
     },
     {
-      "id": "1a29",
+      "id": "2",
       "title": "academia",
       "description": "academia as 10",
       "status": "todo",
-      "priority": "high"
+      "priority": "high",
+      "userId": "1"
     },
     {
-      "id": "9c32",
-      "title": "brecho ",
-      "description": "ir ajudar no brecho",
-      "status": "doing",
-      "priority": "medium"
+      "id": "3",
+      "title": "Projeto kanban",
+      "description": "Finalizar o projeto",
+      "status": "done",
+      "priority": "high",
+      "userId": "1"
     },
     {
-      "id": "8013",
-      "title": "gravar lejan",
-      "description": "entregar ate semana que vem ",
+      "id": "560f",
+      "title": "teste",
+      "description": "123",
       "status": "doing",
-      "priority": "low"
+      "priority": "low",
+      "userId": "1"
     }
   ]
 }

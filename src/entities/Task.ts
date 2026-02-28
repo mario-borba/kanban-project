@@ -7,4 +7,5 @@ export interface Task {
   description: string;
   status: TaskStatus;
   priority: TaskPriority;
+  userId: string;
 }
