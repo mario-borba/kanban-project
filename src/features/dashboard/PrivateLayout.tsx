@@ -1,7 +1,11 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
 import { TaskContextProvider } from "@/contexts/TasksContext";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { UserSideBar } from "./UserSideBar";
 
 export function PrivateLayout() {
@@ -11,11 +15,15 @@ export function PrivateLayout() {
 
   return (
     <TaskContextProvider>
-      <SidebarProvider defaultOpen>
+      <SidebarProvider defaultOpen={false}>
         <UserSideBar />
-
-        <SidebarInset className="flex flex-col min-h-screen">
-          <Outlet />
+        <SidebarInset className="flex items-center ">
+          <header className="flex h-16 items-center px-4">
+            <SidebarTrigger className="md:hidden" />
+          </header>
+          <main className="flex-1">
+            <Outlet />
+          </main>
         </SidebarInset>
       </SidebarProvider>
     </TaskContextProvider>

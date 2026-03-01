@@ -3,6 +3,7 @@ import { Box, Button, Flex, Heading, Text, Avatar } from "@radix-ui/themes";
 import z from "zod";
 import { useAuth } from "../auth/useAuth";
 import { Input } from "../../components/ui/input";
+import { PageContainer } from "./PageContainer";
 
 export const SettingsPage: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -54,33 +55,42 @@ export const SettingsPage: React.FC = () => {
   };
 
   return (
-    <Box className="p-8">
-      <Heading as="h2" size="7" className="mb-4">
+    <PageContainer>
+      <Heading
+        as="h2"
+        size={{ initial: "7", sm: "8" }}
+        weight="light"
+        className="mb-6"
+      >
         Configurações do Usuário
       </Heading>
 
-      <form onSubmit={handleSubmit} className="max-w-md">
+      <form onSubmit={handleSubmit} className="w-full max-w-md">
         <Flex direction="column" gap="4">
           <div>
-            <Text as="label" htmlFor="avatar" className="block mb-2">
-              Avatar (base64)
+            <Text
+              as="label"
+              htmlFor="avatar"
+              className="block mb-2 font-medium"
+            >
+              Avatar
             </Text>
-            <div className="flex items-center gap-4">
+            <Flex align="center" gap="4">
               <Avatar
                 src={avatar}
                 fallback={user.username.charAt(0).toUpperCase()}
                 radius="full"
-                className="size-12"
+                size="5"
               />
               <Input
                 type="file"
                 id="avatar"
                 accept="image/*"
                 onChange={handleFileChange}
+                className="cursor-pointer"
               />
-            </div>
+            </Flex>
           </div>
-
           <div>
             <Text as="label" htmlFor="password" className="block mb-2">
               Nova senha
@@ -92,7 +102,6 @@ export const SettingsPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
           <div>
             <Text as="label" htmlFor="confirmPassword" className="block mb-2">
               Confirmar senha
@@ -104,7 +113,6 @@ export const SettingsPage: React.FC = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-
           {error && (
             <Text color="tomato" className="text-sm">
               {error}
@@ -115,10 +123,11 @@ export const SettingsPage: React.FC = () => {
               {success}
             </Text>
           )}
-
-          <Button type="submit">Salvar alterações</Button>
+          <Button type="submit" size="3" className="mt-2 cursor-pointer">
+            Salvar alterações
+          </Button>
         </Flex>
       </form>
-    </Box>
+    </PageContainer>
   );
 };

@@ -46,7 +46,7 @@ export const UserSideBar: React.FC = () => {
 
       <SidebarSeparator />
       <SidebarContent>
-        <SidebarMenu>
+        <SidebarMenu className="m-2 justify-center">
           <SidebarMenuItem>
             <SidebarMenuButton
               className="justify-start"

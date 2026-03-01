@@ -2,28 +2,10 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./features/auth/AuthContext";
 import { AuthForm } from "./features/auth/AuthForm";
 import { useAuth } from "./features/auth/useAuth";
-import { SettingsPage } from "./features/dashboard/SettingsPage";
-import { Box, Flex, Heading } from "@radix-ui/themes";
-import { CreateTaskForm } from "./components/CreateTaskForm";
-import { TaskBoard } from "./components/TaskBoard";
 import { PrivateLayout } from "./features/dashboard/PrivateLayout";
+import { SettingsPage } from "./features/dashboard/SettingsPage";
+import DashboardPage from "./features/dashboard/DashboardPage";
 
-function DashboardPage() {
-  return (
-    <Box maxWidth="80rem" mx="auto" className="flex-1 w-full px-4 py-8">
-      <Box height="4rem" mb="8">
-        <Flex align="center" gap="4" height="100%">
-          <Heading as="h1" size="8" weight="light">
-            Quadro de Tarefas
-          </Heading>
-          <CreateTaskForm />
-        </Flex>
-      </Box>
-
-      <TaskBoard />
-    </Box>
-  );
-}
 function App() {
   const { user } = useAuth();
 
